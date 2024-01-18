@@ -3,6 +3,8 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Dropout, Flatten
 from keras.optimizers import Adam
+from PIL import Image
+import scipy
 
 gen_train = ImageDataGenerator(rescale=1. / 255)
 gen_valid = ImageDataGenerator(rescale=1. / 255)
@@ -43,7 +45,6 @@ model.add(Dense(1024, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(7, activation='softmax'))
 
-
 optimizer = tf.keras.optimizers.legacy.Adam(lr=0.0001, decay=1e-6)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
@@ -57,7 +58,11 @@ model_info = model.fit(
 )
 
 model_json = model.to_json()
+
+
 with open("model/emotion_model.json", "w") as json_file:
     json_file.write(model_json)
 
 model.save_weights('model/model.h5')
+
+

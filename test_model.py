@@ -19,7 +19,7 @@ while True:
     frame = cv2.resize(frame, (1280, 720))
     if not ret:
         break
-    face_detector = cv2.cascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
+    face_detector = cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     num_faces = face_detector.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
@@ -31,7 +31,7 @@ while True:
 
         prediction = model.predict(cropped_img)
         maxindex = int(np.argmax(prediction))
-        cv2.putText(frame, emotions[maxindex], (x + 5, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+        cv2.putText(frame, emotions[maxindex], (x + 5, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
     cv2.imshow('Emotion Detection', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
